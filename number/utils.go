@@ -1,5 +1,9 @@
 package number
 
+import (
+	"strconv"
+)
+
 // DigitCount1 count digits by loop
 func DigitCount1(no int) int {
 	if no < 10 {
@@ -14,4 +18,9 @@ func DigitCount1(no int) int {
 		digit++
 	}
 	return digit
+}
+
+// DigitCount2 count digits by strconv
+func DigitCount2(no int) int {
+	return len(strconv.Itoa(no))
 }
