@@ -103,3 +103,35 @@ func BenchmarkDigitCount2(b *testing.B) {
 		DigitCount2(i)
 	}
 }
+
+func TestGetDigitValue1(t *testing.T) {
+	tests := []struct {
+		no       int
+		digits   int
+		expected []int
+	}{
+		{
+			no:       1,
+			digits:   1,
+			expected: []int{1},
+		},
+		{
+			no:       12,
+			digits:   2,
+			expected: []int{2, 1},
+		},
+		{
+			no:       123,
+			digits:   3,
+			expected: []int{3, 2, 1},
+		},
+		{
+			no:       1234,
+			digits:   4,
+			expected: []int{4, 3, 2, 1},
+		},
+	}
+	for _, test := range tests {
+		assert.Equal(t, GetDigitValue1(test.no, test.digits), test.expected)
+	}
+}
