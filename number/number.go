@@ -38,6 +38,7 @@ func GetDigitValue1(no, digits int) []int {
 }
 
 // GetDigitValue2 get digit value by strconv, and array value from lsb to msb
+// best practice
 func GetDigitValue2(no, digits int) []int {
 	noStr := strconv.Itoa(no)
 	values := make([]int, digits)

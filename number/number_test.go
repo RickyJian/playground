@@ -136,6 +136,12 @@ func TestGetDigitValue1(t *testing.T) {
 	}
 }
 
+func BenchmarkGetDigitValue1(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		GetDigitValue1(i, DigitCount1(i))
+	}
+}
+
 func TestGetDigitValue2(t *testing.T) {
 	tests := []struct {
 		no       int
@@ -165,5 +171,11 @@ func TestGetDigitValue2(t *testing.T) {
 	}
 	for _, test := range tests {
 		assert.Equal(t, GetDigitValue1(test.no, test.digits), test.expected)
+	}
+}
+
+func BenchmarkGetDigitValue2(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		GetDigitValue2(i, DigitCount1(i))
 	}
 }
