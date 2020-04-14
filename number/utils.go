@@ -8,7 +8,7 @@ func DigitCount1(no int) int {
 
 	digit := 1
 	for i := 10; ; i = i * 10 {
-		if no <= i {
+		if no < i {
 			break
 		}
 		digit++

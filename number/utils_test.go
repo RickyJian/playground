@@ -27,6 +27,22 @@ func TestDigitCount1(t *testing.T) {
 			no:       1122,
 			expected: 4,
 		},
+		{
+			no:       1,
+			expected: 1,
+		},
+		{
+			no:       10,
+			expected: 2,
+		},
+		{
+			no:       100,
+			expected: 3,
+		},
+		{
+			no:       1000,
+			expected: 4,
+		},
 	}
 	for _, test := range tests {
 		assert.Equal(t, DigitCount1(test.no), test.expected)
