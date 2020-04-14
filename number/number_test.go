@@ -49,6 +49,12 @@ func TestDigitCount1(t *testing.T) {
 	}
 }
 
+func BenchmarkDigitCount1(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		DigitCount1(i)
+	}
+}
+
 func TestDigitCount2(t *testing.T) {
 	tests := []struct {
 		no       int
@@ -89,5 +95,11 @@ func TestDigitCount2(t *testing.T) {
 	}
 	for _, test := range tests {
 		assert.Equal(t, DigitCount2(test.no), test.expected)
+	}
+}
+
+func BenchmarkDigitCount2(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		DigitCount2(i)
 	}
 }
