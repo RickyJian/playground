@@ -36,3 +36,15 @@ func GetDigitValue1(no, digits int) []int {
 	}
 	return values
 }
+
+// GetDigitValue2 get digit value by strconv, and array value from lsb to msb
+func GetDigitValue2(no, digits int) []int {
+	noStr := strconv.Itoa(no)
+	values := make([]int, digits)
+	reverse := digits - 1
+	for i := 0; i < digits; i++ {
+		values[i], _ = strconv.Atoi(string(noStr[reverse]))
+		reverse--
+	}
+	return values
+}
