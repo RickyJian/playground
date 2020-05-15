@@ -6,3 +6,5 @@ take easy, just have fun ^ ^!!
 
 * chan map
 * design pattern
+* reflect
+* auto generate struct from sql table
