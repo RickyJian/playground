@@ -2,6 +2,10 @@
 
 concurrency practice
 
+## cancel
+
+practice `context` cancel
+
 ## graceful Shutdown
 
 prevent goroutine leak
