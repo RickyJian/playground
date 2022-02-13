@@ -15,16 +15,25 @@ var (
 )
 
 func main() {
-	fmt.Println(maxProfit(nums), 5)
-	fmt.Println(maxProfit(nums2), 1)
-	fmt.Println(maxProfit(nums3), 1)
-	fmt.Println(maxProfit(nums4), 2)
-	fmt.Println(maxProfit(nums5), 5)
-	fmt.Println(maxProfit(nums6), 6)
-	fmt.Println(maxProfit(nums7), 2)
+
+	fmt.Println(maxProfitV1(nums), 5)
+	fmt.Println(maxProfitV1(nums2), 1)
+	fmt.Println(maxProfitV1(nums3), 1)
+	fmt.Println(maxProfitV1(nums4), 2)
+	fmt.Println(maxProfitV1(nums5), 5)
+	fmt.Println(maxProfitV1(nums6), 6)
+	fmt.Println(maxProfitV1(nums7), 2)
+
+	fmt.Println(maxProfitV2(nums), 5)
+	fmt.Println(maxProfitV2(nums2), 1)
+	fmt.Println(maxProfitV2(nums3), 1)
+	fmt.Println(maxProfitV2(nums4), 2)
+	fmt.Println(maxProfitV2(nums5), 5)
+	fmt.Println(maxProfitV2(nums6), 6)
+	fmt.Println(maxProfitV2(nums7), 2)
 }
 
-func maxProfit(prices []int) int {
+func maxProfitV1(prices []int) int {
 	priceLen := len(prices)
 	if priceLen <= 1 {
 		return 0
@@ -43,19 +52,19 @@ func maxProfit(prices []int) int {
 	return max
 }
 
-func bestMaxProfit(prices []int) int {
-	var max int
-	buyPrice := prices[0]
-
-	for _, price := range prices {
-		if price < buyPrice {
-			buyPrice = price
-		}
-
-		if max < price-buyPrice {
-			max = price - buyPrice
-		}
+func maxProfitV2(prices []int) int {
+	if len(prices) <= 1 {
+		return 0
 	}
 
+	var max, buy int
+	for i, price := range prices {
+		if i == 0 || price < buy {
+			buy = price
+		}
+		if sell := price - buy; sell > max {
+			max = sell
+		}
+	}
 	return max
 }
