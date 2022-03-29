@@ -77,3 +77,17 @@ func TestLongestPalindromeDP(t *testing.T) {
 		assert.Equal(t, true, existed)
 	}
 }
+
+func TestLongestPalindromeDP2(t *testing.T) {
+	for _, test := range tests {
+		result := longestPalindromeDP2(test.input)
+		var existed bool
+		for _, expected := range test.expected {
+			if expected == result {
+				existed = true
+				break
+			}
+		}
+		assert.Equal(t, true, existed)
+	}
+}
