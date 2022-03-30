@@ -84,5 +84,39 @@ func longestPalindromeDP2(s string) string {
 	return result
 }
 
-// TODO: 中心擴散法
+func longestPalindromeSpreadFromCenter(s string) string {
+	if len(s) < 2 {
+		return s
+	}
+
+	var result string
+	for i := range s {
+		oddStr := findPalindrome(i, i, s)
+		evenStr := findPalindrome(i, i+1, s)
+		temp := oddStr
+		if len(oddStr) < len(evenStr) {
+			temp = evenStr
+		}
+		if len(result) < len(temp) {
+			result = temp
+		}
+	}
+	return result
+}
+
+func findPalindrome(left, right int, s string) string {
+	for left >= 0 && right < len(s) {
+		if s[left] != s[right] {
+			break
+		}
+
+		left--
+		right++
+	}
+	// 左邊界右邊界指到的位置
+	left++
+	right--
+	return s[left : right+1]
+}
+
 // TODO: Manacher Algorithm
