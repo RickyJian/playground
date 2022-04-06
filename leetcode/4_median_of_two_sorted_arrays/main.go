@@ -11,6 +11,8 @@ func main() {
 	fmt.Println(findMedianSortedArraysLogMN([]int{1, 3, 5}, []int{2, 4, 6}))
 	fmt.Println(findMedianSortedArraysLogMN([]int{1, 2}, []int{3, 4}))
 	fmt.Println(findMedianSortedArraysLogMN([]int{2, 4, 6, 15}, []int{1, 7, 8, 10, 17}))
+	fmt.Println(findMedianSortedArraysLogMN([]int{1, 4, 5, 7}, []int{2, 3, 8, 10, 1}))
+	fmt.Println(findMedianSortedArraysLogMN([]int{1, 4, 5, 7, 9}, []int{2, 3, 8, 10, 1}))
 
 }
 
@@ -35,6 +37,7 @@ func findMedianSortedArraysBrute(nums1 []int, nums2 []int) float64 {
 
 func findMedianSortedArraysLogMN(nums1 []int, nums2 []int) float64 {
 	if len(nums1) > len(nums2) {
+		// 保證下方迴圈不會超出邊界
 		nums1, nums2 = nums2, nums1
 	}
 
@@ -45,12 +48,15 @@ func findMedianSortedArraysLogMN(nums1 []int, nums2 []int) float64 {
 		i := (left+right)/2 + 1
 		j := totalLeft - i
 		if nums1[i-1] > nums2[j] {
+			// 太靠右往左移動，下一輪搜索區間 [left, i - 1]
 			right = i - 1
 		} else {
+			// 下一輪搜索區間 [i, right]
 			left = i
 		}
 	}
 
+	// left 是最符合的中間分隔線
 	i := left
 	var nums1Left float64
 	if i == 0 {
