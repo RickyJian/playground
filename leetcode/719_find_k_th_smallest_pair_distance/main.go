@@ -6,7 +6,6 @@ import (
 )
 
 func main() {
-
 }
 
 func smallestDistancePairBrute(nums []int, k int) int {
@@ -36,4 +35,27 @@ func smallestDistancePairBrute2(nums []int, k int) int {
 		}
 	}
 	return -1
+}
+
+func smallestDistancePairBS(nums []int, k int) int {
+	sort.Ints(nums)
+
+	low, high := 0, nums[len(nums)-1]-nums[0]
+	for low < high {
+		mid := low + (high-low)/2
+		var count, left int
+		for right, num := range nums {
+			for num-nums[left] > mid {
+				left++
+			}
+			count += right - left
+		}
+		if count < k {
+			low = mid + 1
+		} else {
+			// count >= k
+			high = mid
+		}
+	}
+	return low
 }

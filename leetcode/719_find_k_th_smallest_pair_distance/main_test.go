@@ -46,3 +46,10 @@ func TestSmallestDistancePairBrute2(t *testing.T) {
 		assert.Equal(t, test.expected, result)
 	}
 }
+
+func TestSmallestDistancePairBS(t *testing.T) {
+	for _, test := range tests {
+		result := smallestDistancePairBS(test.nums, test.k)
+		assert.Equal(t, test.expected, result)
+	}
+}
