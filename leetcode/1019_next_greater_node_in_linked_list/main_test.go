@@ -48,3 +48,22 @@ func TestNextLargerNodesStack2(t *testing.T) {
 		assert.Equal(t, test.expected, nextLargerNodesStack2(test.listNode))
 	}
 }
+
+func TestNextLargerNodesStack3(t *testing.T) {
+	var tests = []*struct {
+		listNode *ListNode
+		expected []int
+	}{
+		{
+			listNode: data1,
+			expected: []int{5, 5, 0},
+		},
+		{
+			listNode: data2,
+			expected: []int{7, 0, 5, 5, 0},
+		},
+	}
+	for _, test := range tests {
+		assert.Equal(t, test.expected, nextLargerNodesStack3(test.listNode))
+	}
+}

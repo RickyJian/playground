@@ -47,6 +47,25 @@ func nextLargerNodesStack2(head *ListNode) []int {
 	return results[:len(values)]
 }
 
+func nextLargerNodesStack3(head *ListNode) []int {
+	type newListNode struct {
+		idx int
+		val int
+	}
+	var stack []*newListNode
+	results := make([]int, 0, 10000)
+	for i := 0; head != nil; i++ {
+		results = append(results, 0)
+		for len(stack) > 0 && head.Val > stack[len(stack)-1].val {
+			results[stack[len(stack)-1].idx] = head.Val
+			stack = stack[:len(stack)-1]
+		}
+		stack = append(stack, &newListNode{idx: i, val: head.Val})
+		head = head.Next
+	}
+	return results
+}
+
 type ListNode struct {
 	Val  int
 	Next *ListNode
