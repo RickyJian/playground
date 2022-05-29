@@ -22,10 +22,16 @@ func reverseListSpaceEnhance(head *ListNode) *ListNode {
 	}
 
 	current, next := head, head.Next
+	// 由於反轉的關係第一個 node 指向可設為 nil
 	current.Next = nil
 	for next != nil {
+		// 保存下下個 node 為後續走訪節點做準備
 		nextNode := next.Next
+		// 下一個 node 指向當下的 node
 		next.Next = current
+		// 走訪下個 node
+		//   1. 將下個 node 設定為當下 node
+		//   2. 下個 node 為原本的 node 的指向
 		current = next
 		next = nextNode
 	}
@@ -37,10 +43,14 @@ func reverseListRecursion(head *ListNode) *ListNode {
 		return head
 	}
 
-	nextNodes := reverseListRecursion(head.Next)
+	// 最後一個 node，也就是 reverse 的頭
+	nextNode := reverseListRecursion(head.Next)
+	// 將下一個 node 指向當下的 node
+	// 若為傳進 function 最後一個 node，head.Next = nextNode
 	head.Next.Next = head
+	// 當 node 為傳進 function 的第一個 node 時將他設為 nil
 	head.Next = nil
-	return nextNodes
+	return nextNode
 }
 
 type ListNode struct {
