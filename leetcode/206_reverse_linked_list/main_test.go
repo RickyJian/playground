@@ -54,3 +54,10 @@ func TestReverseListRecursion(t *testing.T) {
 		assert.EqualValues(t, test.expected, results)
 	}
 }
+
+func TestReverseListRecursion2(t *testing.T) {
+	for _, test := range tests {
+		results := reverseListRecursion2(test.nodes)
+		assert.EqualValues(t, test.expected, results)
+	}
+}

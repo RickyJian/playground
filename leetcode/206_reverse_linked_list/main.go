@@ -53,6 +53,23 @@ func reverseListRecursion(head *ListNode) *ListNode {
 	return nextNode
 }
 
+func reverseListRecursion2(head *ListNode) *ListNode {
+	return reverse(nil, head)
+}
+
+func reverse(prev, head *ListNode) *ListNode {
+	if head == nil {
+		// 當 head == nil 時，代表 node 走訪到底蘆，回傳前次節點即可
+		return prev
+	}
+
+	// 保存下次走訪節點
+	nextNode := head.Next
+	// 調換下次節點成前次節點
+	head.Next = prev
+	return reverse(head, nextNode)
+}
+
 type ListNode struct {
 	Val  int
 	Next *ListNode
