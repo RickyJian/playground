@@ -114,6 +114,27 @@ func reverseBetween2(head *ListNode, left int, right int) *ListNode {
 	return dummy.Next
 }
 
+func reverseBetweenRecursion(head *ListNode, left int, right int) *ListNode {
+	if left == right {
+		return head
+	}
+
+	if left > 1 {
+		current := head
+		current.Next = reverseBetweenRecursion(head.Next, left-1, right-1)
+		return current
+	} else {
+		next := head.Next
+		reverseNode := reverseBetweenRecursion(next, 1, right-1)
+		nextNode := next.Next
+		next.Next = head
+		head.Next = nextNode
+		return reverseNode
+	}
+}
+
+// TODO: two pointer swap
+
 type ListNode struct {
 	Val  int
 	Next *ListNode
