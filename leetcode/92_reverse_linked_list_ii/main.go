@@ -115,18 +115,21 @@ func reverseBetween2(head *ListNode, left int, right int) *ListNode {
 	return dummy.Next
 }
 
+// refer to: https://leetcode.com/problems/reverse-linked-list-ii/discuss/30673/Why-nobody-does-it-with-recursion-shouldn't-the-code-be-simpler
 func reverseBetweenRecursion(head *ListNode, left int, right int) *ListNode {
 	if left == right {
 		return head
 	}
 
 	if left > 1 {
-		current := head
-		current.Next = reverseBetweenRecursion(head.Next, left-1, right-1)
-		return current
+		// 不須反轉的節點
+		head.Next = reverseBetweenRecursion(head.Next, left-1, right-1)
+		return head
 	} else {
 		next := head.Next
+		// revereNode always the last node
 		reverseNode := reverseBetweenRecursion(next, 1, right-1)
+		// 節點對調
 		nextNode := next.Next
 		next.Next = head
 		head.Next = nextNode
