@@ -96,11 +96,12 @@ func reverseBetween2(head *ListNode, left int, right int) *ListNode {
 
 	start := prev.Next
 	next := start.Next
-	// 每次 loop 將
-	//   1. 當下 node(start) 向後移，
-	//   2. 下個 node(next) 向前移
-	//   3. 前一個 node(prev) 指向下個 node(next)
-	//   4. 往當下的下個 node(start.Next) 移動
+	// 每次 loop 將時
+	//   1. 將 start node 與 next node 位置交換
+	//     i. start.Next 設定為 next.Next
+	//    ii. next.Next 設定為 prev.Next (prev.Next = start node)
+	//   2. 調整 prev node 的指向， prev.Next = next node
+	//   3. 向下個 node 移動
 	for i := 0; i < right-left; i++ {
 		// 當下 node 向後移
 		start.Next = next.Next
