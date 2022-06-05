@@ -118,21 +118,26 @@ func reverseBetween2(head *ListNode, left int, right int) *ListNode {
 // refer to: https://leetcode.com/problems/reverse-linked-list-ii/discuss/30673/Why-nobody-does-it-with-recursion-shouldn't-the-code-be-simpler
 func reverseBetweenRecursion(head *ListNode, left int, right int) *ListNode {
 	if left == right {
+		// 節點走訪到最後一個要反轉的位置
 		return head
 	}
 
 	if left > 1 {
-		// 不須反轉的節點
+		// 尚未到需要反轉的節點，持續走訪下個節點
+		//   ＊ -1：走訪過的節點
 		head.Next = reverseBetweenRecursion(head.Next, left-1, right-1)
 		return head
 	} else {
+		// left == 1 時，代表 head 到達了我們要調換節點的位置
 		next := head.Next
-		// revereNode always the last node
+		// revereNode 皆為最後節點
 		reverseNode := reverseBetweenRecursion(next, 1, right-1)
-		// 節點對調
-		nextNode := next.Next
+		// 調換節點
+		// head 節點改指向 next 下個節點位置
+		head.Next = next.Next
+		// next 下個節點改指向 head 節點
 		next.Next = head
-		head.Next = nextNode
+		// 由於節點反轉的關係，最後一個節點須移到 left 的位置
 		return reverseNode
 	}
 }
