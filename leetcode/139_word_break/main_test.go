@@ -26,16 +26,32 @@ var tests = []*struct {
 		wordDict: []string{"cats", "dog", "sand", "and", "cat"},
 		expected: false,
 	},
+	{
+		s:        "catsanddog",
+		wordDict: []string{"cats", "dog", "sand", "and", "cat"},
+		expected: true,
+	},
+	{
+		s:        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab",
+		wordDict: []string{"a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa"},
+		expected: false,
+	},
 }
 
-func TestWordBreak(t *testing.T) {
+func TestWordBreakDP(t *testing.T) {
 	for _, test := range tests {
-		assert.Equal(t, test.expected, wordBreak(test.s, test.wordDict))
+		assert.Equal(t, test.expected, wordBreakDP(test.s, test.wordDict))
 	}
 }
 
 func TestWordBreakDFS(t *testing.T) {
 	for _, test := range tests {
 		assert.Equal(t, test.expected, wordBreakDFS(test.s, test.wordDict))
+	}
+}
+
+func TestWordBreakDFS2(t *testing.T) {
+	for _, test := range tests {
+		assert.Equal(t, test.expected, wordBreakDFS2(test.s, test.wordDict))
 	}
 }

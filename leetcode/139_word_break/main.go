@@ -7,7 +7,7 @@ import (
 func main() {
 }
 
-func wordBreak(s string, wordDict []string) bool {
+func wordBreakDP(s string, wordDict []string) bool {
 	dp := make([]bool, len(s)+1)
 	// TODO: add description
 	dp[0] = true
@@ -32,6 +32,7 @@ func wordBreak(s string, wordDict []string) bool {
 	return dp[len(dp)-1]
 }
 
+// Time Limit Exceeded
 func wordBreakDFS(s string, wordDict []string) bool {
 	if len(s) == 0 {
 		return true
@@ -39,6 +40,30 @@ func wordBreakDFS(s string, wordDict []string) bool {
 
 	for _, word := range wordDict {
 		if strings.HasPrefix(s, word) && wordBreakDFS(s[len(word):], wordDict) {
+			return true
+		}
+	}
+	return false
+}
+
+// Time Limit Exceeded
+func wordBreakDFS2(s string, wordDict []string) bool {
+	cache := make(map[string]struct{}, len(wordDict))
+	for _, word := range wordDict {
+		cache[word] = struct{}{}
+	}
+	return recursion(s, cache)
+}
+
+func recursion(s string, cache map[string]struct{}) bool {
+	if len(s) == 0 {
+		return true
+	} else if _, ok := cache[s]; ok {
+		return true
+	}
+
+	for i := range s {
+		if _, ok := cache[s[:i]]; ok && recursion(s[i:], cache) {
 			return true
 		}
 	}
