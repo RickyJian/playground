@@ -9,7 +9,7 @@ func main() {
 
 func wordBreakDP(s string, wordDict []string) bool {
 	dp := make([]bool, len(s)+1)
-	// TODO: add description
+	// TODO: Why dp[0] always be true
 	dp[0] = true
 	// 將陣列轉成 map 加速比對 substr
 	dictSet := make(map[string]struct{})
@@ -19,12 +19,10 @@ func wordBreakDP(s string, wordDict []string) bool {
 
 	for i := 1; i <= len(s); i++ {
 		for j := 0; j < i; j++ {
-			// TODO: add description
-			if dp[j] {
-				if _, ok := dictSet[s[j:i]]; ok {
-					dp[i] = true
-					break
-				}
+			// TODO: description dp[j] == true
+			if _, ok := dictSet[s[j:i]]; ok && dp[j] {
+				dp[i] = true
+				break
 			}
 		}
 	}

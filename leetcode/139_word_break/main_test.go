@@ -12,6 +12,11 @@ var tests = []*struct {
 	expected bool
 }{
 	{
+		s:        " ",
+		wordDict: []string{"leet", "code"},
+		expected: false,
+	},
+	{
 		s:        "leetcode",
 		wordDict: []string{"leet", "code"},
 		expected: true,
