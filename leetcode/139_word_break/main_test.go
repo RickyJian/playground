@@ -33,3 +33,9 @@ func TestWordBreak(t *testing.T) {
 		assert.Equal(t, test.expected, wordBreak(test.s, test.wordDict))
 	}
 }
+
+func TestWordBreakDFS(t *testing.T) {
+	for _, test := range tests {
+		assert.Equal(t, test.expected, wordBreakDFS(test.s, test.wordDict))
+	}
+}

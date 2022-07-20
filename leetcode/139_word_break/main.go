@@ -1,5 +1,9 @@
 package main
 
+import (
+	"strings"
+)
+
 func main() {
 }
 
@@ -28,4 +32,15 @@ func wordBreak(s string, wordDict []string) bool {
 	return dp[len(dp)-1]
 }
 
-// TODO: add DFS solution
+func wordBreakDFS(s string, wordDict []string) bool {
+	if len(s) == 0 {
+		return true
+	}
+
+	for _, word := range wordDict {
+		if strings.HasPrefix(s, word) && wordBreakDFS(s[len(word):], wordDict) {
+			return true
+		}
+	}
+	return false
+}
