@@ -29,8 +29,7 @@ func wordBreak(s string, wordDict []string) []string {
 }
 
 func wordBreakWithMap(s string, wordDict []string) []string {
-	cache := make(map[string][]string)
-	return recursion(s, wordDict, cache)
+	return recursion(s, wordDict, make(map[string][]string))
 }
 
 func recursion(s string, wordDict []string, cache map[string][]string) []string {
@@ -44,7 +43,7 @@ func recursion(s string, wordDict []string, cache map[string][]string) []string 
 	for _, word := range wordDict {
 		if strings.HasPrefix(s, word) {
 			words := recursion(s[len(word):], wordDict, cache)
-			if words == nil {
+			if len(words) == 0 {
 				result = append(result, word)
 			}
 
