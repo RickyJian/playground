@@ -43,7 +43,8 @@ func recursion(s string, wordDict []string, cache map[string][]string) []string 
 	for _, word := range wordDict {
 		if strings.HasPrefix(s, word) {
 			words := recursion(s[len(word):], wordDict, cache)
-			if len(words) == 0 {
+			if words == nil {
+				// 代表字串可以完整分割
 				result = append(result, word)
 			}
 
