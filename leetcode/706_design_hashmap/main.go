@@ -27,6 +27,18 @@ func main() {
 	m2.remove(2)
 	fmt.Println("4 Get:(2)", m2.get(2))
 
+	fmt.Println("======")
+
+	m3 := newMyHashMapOpt()
+	m3.Put(1, 1)
+	m3.Put(2, 2)
+	fmt.Println("1 Get:(1)", m3.Get(1))
+	fmt.Println("2 Get:(3)", m3.Get(3))
+	m3.Put(2, 1)
+	fmt.Println("3 Get:(2)", m3.Get(2))
+	m3.Remove(2)
+	fmt.Println("4 Get:(2)", m3.Get(2))
+
 }
 
 type MyHashMap struct {
@@ -96,6 +108,66 @@ func (this *MyHashMap) Remove(key int) {
 		}
 		firstNode = firstNode.next
 	}
+}
+
+const (
+	bucketSize = 1024
+)
+
+type myHashMapOpt struct {
+	arrNode [bucketSize]*node
+}
+
+func newMyHashMapOpt() myHashMapOpt {
+	return myHashMapOpt{arrNode: [bucketSize]*node{}}
+}
+
+func (h *myHashMapOpt) Put(key int, value int) {
+	bucketIndex := key % bucketSize
+	head := h.arrNode[bucketIndex]
+	for {
+		if head == nil {
+			head = &node{key: key, value: value, next: h.arrNode[bucketIndex]}
+			break
+		} else if head.key == key {
+			head.value = value
+			return
+		}
+		head = head.next
+	}
+	h.arrNode[bucketIndex] = head
+}
+
+func (h *myHashMapOpt) Get(key int) int {
+	bucketIndex := key % bucketSize
+	head := h.arrNode[bucketIndex]
+	for {
+		if head == nil {
+			break
+		} else if head.key == key {
+			return head.value
+		}
+		head = head.next
+	}
+	return -1
+}
+
+func (h *myHashMapOpt) Remove(key int) {
+	bucketIndex := key % bucketSize
+	head := h.arrNode[bucketIndex]
+	prev := &node{next: head}
+	temp := prev
+	for {
+		if head == nil {
+			break
+		} else if head.key == key {
+			prev.next = head.next
+			break
+		}
+		prev = prev.next
+		head = head.next
+	}
+	h.arrNode[bucketIndex] = temp.next
 }
 
 // worse case: Time Limit Exceeded
