@@ -14,6 +14,19 @@ func main() {
 	fmt.Println("3 Get:(2)", m.Get(2))
 	m.Remove(2)
 	fmt.Println("4 Get:(2)", m.Get(2))
+
+	fmt.Println("======")
+
+	m2 := newHashMapArr()
+	m2.put(1, 1)
+	m2.put(2, 2)
+	fmt.Println("1 Get:(1)", m2.get(1))
+	fmt.Println("2 Get:(3)", m2.get(3))
+	m2.put(2, 1)
+	fmt.Println("3 Get:(2)", m2.get(2))
+	m2.remove(2)
+	fmt.Println("4 Get:(2)", m2.get(2))
+
 }
 
 type MyHashMap struct {
@@ -85,4 +98,48 @@ func (this *MyHashMap) Remove(key int) {
 	}
 }
 
-// TODO: slice
+// worse case: Time Limit Exceeded
+type hashMapArr struct {
+	arr []*arr
+}
+
+type arr struct {
+	key   int
+	value int
+}
+
+func newHashMapArr() hashMapArr {
+	return hashMapArr{arr: make([]*arr, 0, 1000001)}
+}
+
+func (h *hashMapArr) put(key int, value int) {
+	for _, val := range h.arr {
+		if val.key == key {
+			val.value = value
+			return
+		}
+	}
+	h.arr = append(h.arr, &arr{key: key, value: value})
+}
+
+func (h *hashMapArr) get(key int) int {
+	for _, val := range h.arr {
+		if val.key == key {
+			return val.value
+		}
+	}
+	return -1
+}
+
+func (h *hashMapArr) remove(key int) {
+	for i, val := range h.arr {
+		if val.key == key {
+			newArr := make([]*arr, 0, 10001)
+			preArr, postArr := h.arr[:i], h.arr[i+1:]
+			newArr = append(newArr, preArr...)
+			newArr = append(newArr, postArr...)
+			h.arr = newArr
+			return
+		}
+	}
+}
