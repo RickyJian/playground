@@ -29,8 +29,7 @@ func Constructor(capacity int) LRUCache {
 }
 
 func (this *LRUCache) Get(key int) int {
-	n, ok := this.m[key]
-	if ok {
+	if n, ok := this.m[key]; ok {
 		this.Remove(n)
 		this.Add(n)
 		return n.value
@@ -39,8 +38,7 @@ func (this *LRUCache) Get(key int) int {
 }
 
 func (this *LRUCache) Put(key int, value int) {
-	n, ok := this.m[key]
-	if ok {
+	if n, ok := this.m[key]; ok {
 		n.value = value
 		this.Remove(n)
 		this.Add(n)
@@ -51,34 +49,40 @@ func (this *LRUCache) Put(key int, value int) {
 		this.Add(n)
 	}
 	if len(this.m) > this.capacity {
+		// 若 map > capacity 刪除最後節點
 		delete(this.m, this.tail.key)
 		this.Remove(this.tail)
 	}
 }
 
 func (this *LRUCache) Add(node *node) {
+	// 將 node prev 設為 null 是由於新加入的 node 要移動到首位
 	node.prev = nil
 	node.next = this.head
 	if this.head != nil {
+		// cache 不為空須將 node 放置首位並連結當下 head
 		this.head.prev = node
 	}
 	this.head = node
 	if this.tail == nil {
+		// cache 為空 tail 為 node
 		this.tail = node
 	}
 }
 
 func (this *LRUCache) Remove(node *node) {
 	if this.head == node {
-		// when node is head
+		// 若為首位： node 下個 node 替換成首位
 		this.head = node.next
 	} else {
+		// 非首位：刪除中間 node 串接前個及下個 node
 		node.prev.next = node.next
 	}
 	if this.tail == node {
-		// when node is tail
+		// 若為最後：上個 node 即為最後
 		this.tail = node.prev
 	} else {
+		// 若非最後：刪除中間 node 串接前個及下個 node
 		node.next.prev = node.prev
 	}
 }

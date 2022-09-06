@@ -127,6 +127,7 @@ func (h *myHashMapOpt) Put(key int, value int) {
 	head := h.arrNode[bucketIndex]
 	for {
 		if head == nil {
+			// 把新的 node 添加到 bucket 最前頭
 			head = &node{key: key, value: value, next: h.arrNode[bucketIndex]}
 			break
 		} else if head.key == key {
@@ -155,7 +156,9 @@ func (h *myHashMapOpt) Get(key int) int {
 func (h *myHashMapOpt) Remove(key int) {
 	bucketIndex := key % bucketSize
 	head := h.arrNode[bucketIndex]
+	// 記住 head 上一個節點，為後續刪除 key 後，並將其串接起來 prev.next -> head.next
 	prev := &node{next: head}
+	// 記住第一個節點未後續要回寫 bucket 使用
 	temp := prev
 	for {
 		if head == nil {
