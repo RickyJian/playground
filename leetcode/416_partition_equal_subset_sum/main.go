@@ -66,6 +66,7 @@ func canPartitionDP(nums []int) bool {
 
 	numLen := len(nums)
 	target := total / 2
+	// dp[i][j]：代表 0 ~ i 的元素是否可以剛好組成 j
 	dp := make([][]bool, numLen)
 	for i := 0; i < len(dp); i++ {
 		// 因為 target 是從 0 開始因此需要 + 1
@@ -73,20 +74,20 @@ func canPartitionDP(nums []int) bool {
 	}
 
 	if nums[0] < target {
-		// 第一個 元素 < target 代表該值與其餘 nums 有機會加總 = target
 		dp[0][nums[0]] = true
 	}
 
-	// 由於 num[0] 已設定，直接從 nums[1] ~ nums[numLen-1] 即可
+	// 由於 num[0] 已設定，直接從 nums[1 ~ numLen-1] 即可
 	for i := 1; i < numLen; i++ {
 		for j := 0; j <= (target); j++ {
-			// TODO: description
+			// 若前一個元素能夠組成 j，代表後續的每個 nums[i ~ numLen-1] 皆可以組成 j
 			dp[i][j] = dp[i-1][j]
 			if nums[i] == j {
-				// TODO: description
+				// 代表兩個子集加總皆為相同
 				dp[i][j] = true
 			} else if nums[i] < j {
-				// TODO: description
+				// dp[i-1][j]：若前一個元素能夠組成 j，代表後續的每個 nums[i ~ numLen-1] 皆可以組成 j
+				// dp[i-1][j-nums[i]]：若上一個元素 nums[i-1] 可組成 j - nums[i]，代表 nums[i] + nums[i-1] == j
 				dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i]]
 			}
 			// 已符合條件直接回傳 true
@@ -95,5 +96,6 @@ func canPartitionDP(nums []int) bool {
 			}
 		}
 	}
+	// 由於 dp[i][j] == dp[i-1][j]，因此只須看最後一個元素的 target 是否為 true 就好
 	return dp[numLen-1][target]
 }
