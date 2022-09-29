@@ -10,6 +10,7 @@ func main() {
 	// fmt.Println(canPartitionDFS([]int{1, 2, 3, 5}))
 	// fmt.Println(canPartitionDFS([]int{2, 2, 1, 1}))
 	fmt.Println(canPartitionDP([]int{2, 2, 1, 1}))
+	fmt.Println(canPartitionDP2([]int{2, 2, 1, 1}))
 	// fmt.Println(canPartitionDP([]int{100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
 	// 	100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
 	// 	100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
@@ -73,7 +74,7 @@ func canPartitionDP(nums []int) bool {
 		dp[i] = make([]bool, target+1)
 	}
 
-	if nums[0] < target {
+	if nums[0] <= target {
 		dp[0][nums[0]] = true
 	}
 
@@ -98,4 +99,32 @@ func canPartitionDP(nums []int) bool {
 	}
 	// 由於 dp[i][j] == dp[i-1][j]，因此只須看最後一個元素的 target 是否為 true 就好
 	return dp[numLen-1][target]
+}
+
+func canPartitionDP2(nums []int) bool {
+	var total int
+	for _, num := range nums {
+		total += num
+	}
+	if total%2 > 0 {
+		return false
+	}
+
+	numLen := len(nums)
+	target := total / 2
+	dp := make([]bool, target+1)
+	dp[0] = true
+	if nums[0] <= target {
+		dp[nums[0]] = true
+	}
+
+	for i := 1; i < numLen; i++ {
+		for j := target; j >= 0 && nums[i] < j; j-- {
+			dp[j] = dp[j] || dp[j-nums[i]]
+			if dp[target] {
+				return true
+			}
+		}
+	}
+	return dp[target]
 }
