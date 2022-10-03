@@ -65,6 +65,10 @@ touch "main.go"
 
 touch "main_test.go"
 
+{
+  printf "package main"
+} >>"main_test.go"
+
 go mod init "${go_module_name}"
 
 go get github.com/stretchr/testify
