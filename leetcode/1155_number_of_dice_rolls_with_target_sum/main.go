@@ -7,6 +7,11 @@ import (
 func main() {
 	fmt.Println(numRollsToTargetDP(1, 6, 3))
 	fmt.Println(numRollsToTargetDP(2, 6, 7))
+	fmt.Println(numRollsToTargetDP(3, 6, 7))
+	fmt.Println("====")
+	fmt.Println(numRollsToTargetDFS(1, 6, 3))
+	fmt.Println(numRollsToTargetDFS(2, 6, 7))
+	fmt.Println(numRollsToTargetDFS(3, 6, 7))
 }
 
 func numRollsToTargetDP(n int, k int, target int) int {
@@ -37,3 +42,35 @@ func numRollsToTargetDP(n int, k int, target int) int {
 	}
 	return dp[n][target]
 }
+
+// TODO: dp compress
+
+func numRollsToTargetDFS(n int, k int, target int) int {
+	// 若 n 個骰子的最大值都無超過 target 代表骰子終究無法組合成 target
+	if n*k < target {
+		return 0
+	}
+	return dfs(n, k, target)
+}
+
+func dfs(n, k, target int) int {
+	if target == 0 && n == 0 {
+		// 為最後一個骰子且剛好可以組合成 target
+		return 1
+	} else if target < 0 || n == 0 {
+		// 為最後一個骰子 或 target 無法組合
+		return 0
+	}
+
+	var count int
+	for i := 1; i <= k; i++ {
+		target -= i
+		// n-1：骰子骰過不可再用
+		count += dfs(n-1, k, target) % 1000000007
+		// 把剛剛 減 的 i 加回，為了不影響後續 backtracking 使用
+		target += i
+	}
+	return count
+}
+
+// TODO: dfs with memo
