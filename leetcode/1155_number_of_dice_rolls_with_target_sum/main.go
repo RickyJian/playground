@@ -64,11 +64,8 @@ func dfs(n, k, target int) int {
 
 	var count int
 	for i := 1; i <= k; i++ {
-		target -= i
 		// n-1：骰子骰過不可再用
-		count += dfs(n-1, k, target) % 1000000007
-		// 把剛剛 減 的 i 加回，為了不影響後續 backtracking 使用
-		target += i
+		count += dfs(n-1, k, target-i) % 1000000007
 	}
 	return count
 }
