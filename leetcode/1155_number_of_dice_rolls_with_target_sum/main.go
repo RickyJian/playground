@@ -37,13 +37,15 @@ func numRollsToTargetDP(n int, k int, target int) int {
 	// 雖然題目不會有 dp[0][0] 的情形發生，但為了讓後續 dp 可以向下執行需要個初始值，
 	// 而我們可以看作當有 0 顆骰子可以組成 0 的方法有 1 種
 	dp[0][0] = 1
+	// i：第 i 顆骰子
+	// j：骰出 j 的面
+	// 下方三個 for 可以看成：第 i 個骰子骰出 j 面時，有幾種方式可以組成 z
 	for i := 1; i <= n; i++ {
 		for j := 1; j <= k; j++ {
-			// 我們只須檢查 z ~ target 有幾種組合方式，
-			// 因為 1 ~ (z - 1) 會是我們 j -1 執行的結果
+			// 由於骰出的面(j) > z 沒有方法能組成 z，
+			// 因此我們只須檢查疼組成 (z ~ target) 的方法就好
 			for z := j; z <= target; z++ {
-				// 不計算 j < z 是因為骰出的值已經大於 target，結果必為 0
-				// dp[i-1][z-j]：檢查上一顆骰子骰出的結果有幾種方法可以組成 z-j
+				// dp[i-1][z-j]：檢查上一顆骰子是否能組成 z-j，若能代表當下的骰子也可以組成 z
 				dp[i][z] = (dp[i][z] + dp[i-1][z-j]) % m
 			}
 		}
@@ -95,7 +97,9 @@ func dfsMemo(n, k, target int, memo map[string]int) int {
 		// 為最後一個骰子 或 target 無法組合
 		return 0
 	} else if val, ok := memo[key]; ok {
-		// TODO: description
+		// memo[key] 保存 dfs 曾經走過路的結果，
+		// 若有紀錄過可以直接能 memo 中的值，
+		// 來減少 dfs 重複走過路徑的情形
 		return val
 	}
 
