@@ -5,15 +5,19 @@ import (
 )
 
 func main() {
+	// Brute force solution
 	// fmt.Println(minFlipsMonoIncrBrute("00110"))
 	// fmt.Println(minFlipsMonoIncrBrute("010110"))
 	// fmt.Println(minFlipsMonoIncrBrute("00011000"))
 	fmt.Println(minFlipsMonoIncrBrute("11011"))
 
-	fmt.Println(minFlipsMonoIncrDP1("00110"))
-	// fmt.Println(minFlipsMonoIncrDP1("010110"))
-	// fmt.Println(minFlipsMonoIncrDP1("00011000"))
-	// fmt.Println(minFlipsMonoIncrDP1("11011"))
+	// DP two arrays solution
+	fmt.Println(minFlipsMonoIncrDP2Array("00110"))
+	// fmt.Println(minFlipsMonoIncrDP2Array("010110"))
+	// fmt.Println(minFlipsMonoIncrDP2Array("00011000"))
+	// fmt.Println(minFlipsMonoIncrDP2Array("11011"))
+
+	// DP one array solution
 }
 
 // TLE
@@ -41,7 +45,7 @@ func minFlipsMonoIncrBrute(s string) int {
 	return min
 }
 
-func minFlipsMonoIncrDP1(s string) int {
+func minFlipsMonoIncrDP2Array(s string) int {
 	length := len(s)
 	flipToOne := make(map[int]int, length)
 	for i := length - 1; i >= 0; i-- {
@@ -57,24 +61,40 @@ func minFlipsMonoIncrDP1(s string) int {
 			flipToZero[i]++
 		}
 	}
-	min := -1
-	for i := 0; i < length; i++ {
-		var count int
-		if i == 0 {
-			// 左邊第一數右邊皆須翻成 1
-			count = flipToOne[i]
-		} else if i == length-1 {
-			// 右邊第一數右邊皆須翻成 0
-			count = flipToZero[i]
-		} else {
-			// TODO: description
-			count = flipToZero[i] + flipToOne[i+1]
-		}
-		if min == -1 || min > count {
+	var min int
+	for i := 0; i <= length; i++ {
+		// 當執行到第 i 個元素時：
+		// flipToZero[i-1]: 左邊(i-1)需要翻轉成 0 的次數
+		// flipToOne[i]: 右邊(i)需要翻轉成 1 的次數
+		count := flipToZero[i-1] + flipToOne[i]
+		if i == 0 || min > count {
 			min = count
 		}
 	}
 	return min
 }
 
-// TODO: enhance dp
+func minFlipsMonoIncrDP1Array(s string) int {
+	length := len(s)
+	flipToZero := make(map[int]int)
+	for i := 0; i < length; i++ {
+		flipToZero[i] = flipToZero[i-1]
+		if s[i] == '1' {
+			flipToZero[i]++
+		}
+	}
+
+	var min int
+	for i := 0; i <= length; i++ {
+		// flipToZero[i-1]:
+		// right: ((length - i) - (flipToZero[length-1] - flipToZero[i-1]))
+		//   * length - i: TODO: add description
+		//   * flipToZero[length-1]: 字串最後一個元素
+		//   * flipToZero[length-1] - flipToZero[i-1]: 從 i ~ 最後元素須翻轉的次數
+		count := flipToZero[i-1] + ((length - i) - (flipToZero[length-1] - flipToZero[i-1]))
+		if i == 0 || count < min {
+			min = count
+		}
+	}
+	return min
+}
