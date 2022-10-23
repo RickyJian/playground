@@ -22,7 +22,7 @@ func main() {
 
 // TLE
 func minFlipsMonoIncrBrute(s string) int {
-	min := -1
+	var min int
 	length := len(s)
 	for i := 0; i <= length; i++ {
 		var count int
@@ -38,7 +38,7 @@ func minFlipsMonoIncrBrute(s string) int {
 				count++
 			}
 		}
-		if min == -1 || min > count {
+		if i == 0 || min > count {
 			min = count
 		}
 	}
