@@ -9,6 +9,7 @@ func countSubstringsN5(s string, t string) int {
 	for i := 0; i < sLen; i++ {
 		for j := i + 1; j <= sLen; j++ {
 			for k := 0; k < tLen; k++ {
+			LOOP:
 				for l := k + 1; l <= tLen; l++ {
 					// 僅須比較長度一致的 s[i:j], t[l:k]
 					if j-i != l-k {
@@ -22,6 +23,9 @@ func countSubstringsN5(s string, t string) int {
 						// t 由第 k 個位置開始找
 						if s[i+z] != t[k+z] {
 							diff++
+						}
+						if diff > 1 {
+							break LOOP
 						}
 					}
 					if diff == 1 {
@@ -55,3 +59,5 @@ func countSubstringsN3(s string, t string) int {
 	}
 	return result
 }
+
+// TODO: dp solution
