@@ -60,4 +60,73 @@ func countSubstringsN3(s string, t string) int {
 	return result
 }
 
-// TODO: dp solution
+func countSubstringsDP(s string, t string) int {
+	sLen, tLen := len(s), len(t)
+	dp := make([][][]int, sLen)
+	for i := range dp {
+		dp[i] = make([][]int, tLen)
+		for j := range dp[i] {
+			dp[i][j] = make([]int, 2)
+		}
+	}
+
+	var result int
+	for i := 0; i < sLen; i++ {
+		if s[i] == t[0] {
+			dp[i][0][0] = 1
+		} else {
+			dp[i][0][1] = 1
+		}
+		result += dp[i][0][1]
+	}
+	for i := 1; i < tLen; i++ {
+		if s[0] == t[i] {
+			dp[0][i][0] = 1
+		} else {
+			dp[0][i][1] = 1
+		}
+		result += dp[0][i][1]
+	}
+	for i := 1; i < sLen; i++ {
+		for j := 1; j < tLen; j++ {
+			if s[i] == t[j] {
+				dp[i][j][0] = dp[i-1][j-1][0] + 1
+				dp[i][j][1] = dp[i-1][j-1][1]
+			} else {
+				dp[i][j][0] = 0
+				dp[i][j][1] = dp[i-1][j-1][0] + 1
+			}
+			result += dp[i][j][1]
+		}
+	}
+	return result
+}
+
+func countSubstringsDP2(s string, t string) int {
+	sLen, tLen := len(s), len(t)
+	// dp[i][j][0]：在 s 字串中第 i 個位置與 t 字串中第 j 個位置是否相同
+	// dp[i][j][1]：在 s 字串中第 i 個位置與 t 字串中第 j 個位置是否不同
+	dp := make([][][]int, sLen+1)
+	for i := range dp {
+		dp[i] = make([][]int, tLen+1)
+		for j := range dp[i] {
+			dp[i][j] = make([]int, 2)
+		}
+	}
+
+	var result int
+	for i := 0; i < sLen; i++ {
+		for j := 0; j < tLen; j++ {
+			if s[i] == t[j] {
+				dp[i+1][j+1][0] = dp[i][j][0] + 1
+				dp[i+1][j+1][1] = dp[i][j][1]
+			} else {
+				dp[i+1][j+1][0] = 0
+				//
+				dp[i+1][j+1][1] = dp[i][j][0] + 1
+			}
+			result += dp[i+1][j+1][1]
+		}
+	}
+	return result
+}
