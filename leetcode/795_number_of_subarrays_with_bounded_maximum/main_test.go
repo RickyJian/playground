@@ -37,3 +37,9 @@ func TestNumSubarrayBoundedMaxBruteForce(t *testing.T) {
 		assert.Equal(t, test.expected, numSubarrayBoundedMaxBruteForce(test.nums, test.left, test.right))
 	}
 }
+
+func TestNumSubarrayBoundedMaxDP(t *testing.T) {
+	for _, test := range tests {
+		assert.Equal(t, test.expected, numSubarrayBoundedMaxDP(test.nums, test.left, test.right))
+	}
+}

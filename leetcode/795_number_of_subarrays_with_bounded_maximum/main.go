@@ -34,3 +34,25 @@ func numSubarrayBoundedMaxBruteForce(nums []int, left int, right int) int {
 	}
 	return result
 }
+
+func numSubarrayBoundedMaxDP(nums []int, left int, right int) int {
+	var result, count int
+	// -1：由於 nums index 是由 0 開始計算
+	breakIdx := -1
+	for i, num := range nums {
+		if num > right {
+			// TODO: description
+			breakIdx = i
+			count = 0
+		} else if num < left {
+			// 若當下 num < left 代表 subarray count 等於先前的數量
+			result += count
+		} else {
+			// left <= num <= right
+			// TODO: description
+			count = i - breakIdx
+			result += count
+		}
+	}
+	return result
+}
