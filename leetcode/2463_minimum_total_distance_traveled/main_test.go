@@ -9,7 +9,7 @@ import (
 var tests = []*struct {
 	robot    []int
 	factory  [][]int
-	expected int
+	expected int64
 }{
 	{
 		robot: []int{0, 4, 6},
@@ -27,10 +27,22 @@ var tests = []*struct {
 		},
 		expected: 2,
 	},
+	{
+		robot: []int{9, 11, 99, 101},
+		factory: [][]int{
+			{10, 1},
+			{7, 1},
+			{14, 1},
+			{100, 1},
+			{96, 1},
+			{103, 1},
+		},
+		expected: 6,
+	},
 }
 
 func TestMinimumTotalDistanceBruteForce(t *testing.T) {
 	for _, test := range tests {
-		assert.Equal(t, test.expected, minimumTotalDistanceBruteForce(test.robot, test.factory))
+		assert.Equal(t, test.expected, minimumTotalDistanceDFS(test.robot, test.factory))
 	}
 }
