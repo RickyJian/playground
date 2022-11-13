@@ -2,7 +2,6 @@ package main
 
 import (
 	"math"
-	"sort"
 )
 
 func main() {
@@ -11,31 +10,20 @@ func main() {
 
 // TLE
 func minimumTotalDistanceDFS(robot []int, factory [][]int) int64 {
-	sort.Ints(robot)
-	sort.Slice(factory, func(i, j int) bool {
-		return factory[i][0] < factory[j][0]
-	})
 	return dfs(robot, factory)
 }
 
 func dfs(robot []int, factory [][]int) int64 {
-	if len(robot) == 0 || len(factory) == 0 {
+	if len(robot) == 0 {
 		return 0
 	}
 
-	result, minPath := int64(math.MaxInt64), int64(math.MaxInt64)
+	result := int64(math.MaxInt64)
 	for _, f := range factory {
-		if f[1] == 0 {
-			continue
-		}
-
-		// robot[0]: robot position
-		// f[0]: factory position
-		d := abs(robot[0] - f[0])
-		if d < minPath {
+		robotPos, factoryPos, limit := robot[0], f[0], f[1]
+		for ; limit > 0; limit-- {
 			f[1]--
-			minPath = d
-			current := dfs(robot[1:], factory) + d
+			current := dfs(robot[1:], factory) + abs(robotPos-factoryPos)
 			if current < result {
 				result = current
 			}
@@ -43,6 +31,23 @@ func dfs(robot []int, factory [][]int) int64 {
 		}
 	}
 	return result
+}
+
+func minimumTotalDistanceDFSMemo(robot []int, factory [][]int) int64 {
+	dp := make([][]int, len(robot))
+	for i := 0; i < len(robot); i++ {
+		dp[i] = make([]int, len(factory))
+	}
+	return dfsMemo(robot, factory, 0, 0, dp)
+}
+
+func dfsMemo(robot []int, factory [][]int, robotPos, factoryPos int, dp [][]int) int64 {
+	if len(robot) == 0 {
+		return 0
+	}
+
+	// TODO: dfs with memo
+	return int64(dp[robotPos][factoryPos])
 }
 
 func abs(number int) int64 {
