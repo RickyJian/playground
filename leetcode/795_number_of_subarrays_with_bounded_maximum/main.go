@@ -36,6 +36,29 @@ func numSubarrayBoundedMaxBruteForce(nums []int, left int, right int) int {
 }
 
 func numSubarrayBoundedMaxDP(nums []int, left int, right int) int {
+	dp := make([]int, len(nums))
+	// -1：由於 nums index 是由 0 開始計算
+	breakIdx := -1
+	var result int
+	for i, num := range nums {
+		if left <= num && num <= right {
+			dp[i] = i - breakIdx
+		} else {
+			if i == 0 {
+				dp[i] = 0
+			} else if num > right {
+				breakIdx = i
+			} else {
+				// num < left
+				dp[i] = dp[i-1]
+			}
+		}
+		result += dp[i]
+	}
+	return result
+}
+
+func numSubarrayBoundedMaxDPCompress(nums []int, left int, right int) int {
 	var result, count int
 	// -1：由於 nums index 是由 0 開始計算
 	breakIdx := -1
