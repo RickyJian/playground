@@ -21,7 +21,7 @@ func dfs(robot []int, factory [][]int) int64 {
 	result := int64(math.MaxInt64)
 	for _, f := range factory {
 		robotPos, factoryPos, limit := robot[0], f[0], f[1]
-		for ; limit > 0; limit-- {
+		if limit > 0 {
 			f[1]--
 			current := dfs(robot[1:], factory) + abs(robotPos-factoryPos)
 			if current < result {
