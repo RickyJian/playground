@@ -7,3 +7,8 @@ times[i] = (ui, vi, wi)：ui 原始節點，vi 連接節點，wi 花費時間
 從某個節點 k 發出訊號，試問需要多久才能使所有節點都收到訊號，若此訊號無法到達所有節點請回傳 -1
 
 [743_Network_Delay_Time](https://leetcode.com/problems/network-delay-time/)
+
+--------------------
+# Reference
+
+[DFS & BFS, explained & illustrated](https://leetcode.com/problems/network-delay-time/discuss/2036398/DFS-and-BFS-explained-and-illustrated)
