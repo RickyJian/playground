@@ -38,20 +38,20 @@ func dfs(nodes map[int][][]int, reached map[int]struct{}, minPath map[int]int, f
 }
 
 func networkDelayTimeBFS(times [][]int, n int, k int) int {
-	children := map[int][][]int{}
+	children := make(map[int][][]int)
 	for _, time := range times {
 		children[time[0]] = append(children[time[0]], []int{time[1], time[2]})
 	}
 
-	seen := map[int]bool{}
-	minPath := map[int]int{}
+	reached := make(map[int]struct{})
+	minPath := make(map[int]int)
 	nodes := [][]int{{k, 0}}
 	for len(nodes) != 0 {
 		parentLen := len(nodes)
 		for _, node := range nodes {
 			from, weight := node[0], node[1]
-			seen[from] = true
-			if currentWeight, ok := minPath[from]; ok && weight >= currentWeight {
+			reached[from] = struct{}{}
+			if currentWeight, ok := minPath[from]; ok && weight > currentWeight {
 				continue
 			}
 
@@ -64,7 +64,7 @@ func networkDelayTimeBFS(times [][]int, n int, k int) int {
 		nodes = nodes[:len(nodes[parentLen:])]
 	}
 
-	if len(seen) != n {
+	if len(reached) != n {
 		return -1
 	}
 
