@@ -51,6 +51,12 @@ var tests = []*struct {
 
 func TestNetworkDelayTimeDFS(t *testing.T) {
 	for _, test := range tests {
-		assert.Equal(t, test.expected, networkDelayTime(test.times, test.n, test.k))
+		assert.Equal(t, test.expected, networkDelayTimeDFS(test.times, test.n, test.k))
+	}
+}
+
+func TestNetworkDelayTimeBFS(t *testing.T) {
+	for _, test := range tests {
+		assert.Equal(t, test.expected, networkDelayTimeBFS(test.times, test.n, test.k))
 	}
 }
