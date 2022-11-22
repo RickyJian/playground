@@ -76,3 +76,5 @@ func networkDelayTimeBFS(times [][]int, n int, k int) int {
 	}
 	return max
 }
+
+// TODO: add Dijkstra Algorithm solution
