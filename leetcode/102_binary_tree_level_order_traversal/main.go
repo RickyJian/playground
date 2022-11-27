@@ -14,13 +14,26 @@ func main() {
 			},
 		},
 	}
-	// fmt.Println(inorderTraversalIterator(root))
+	fmt.Println(levelOrderDFS(root))
 	fmt.Println(levelOrderBFS(root))
 }
 
 func levelOrderDFS(root *TreeNode) [][]int {
-	// TODO: implement
-	return nil
+	results := make([][]int, 0)
+	dfs(root, 0, &results)
+	return results
+}
+
+func dfs(root *TreeNode, level int, results *[][]int) {
+	if root == nil {
+		return
+	} else if len(*results) == level {
+		*results = append(*results, []int{})
+	}
+
+	(*results)[level] = append((*results)[level], root.Val)
+	dfs(root.Left, level+1, results)
+	dfs(root.Right, level+1, results)
 }
 
 func levelOrderBFS(root *TreeNode) [][]int {
