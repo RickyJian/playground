@@ -30,8 +30,8 @@ func TestPostorderTraversalDFS(t *testing.T) {
 	}
 }
 
-// func TestPreorderTraversalIterator(t *testing.T) {
-// 	for _, test := range tests {
-// 		assert.Equal(t, test.expected, preorderTraverseIterator(test.root))
-// 	}
-// }
+func TestPostorderTraversalIterator(t *testing.T) {
+	for _, test := range tests {
+		assert.Equal(t, test.expected, postorderTraversalIterator(test.root))
+	}
+}
