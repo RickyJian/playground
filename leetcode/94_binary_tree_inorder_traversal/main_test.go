@@ -20,7 +20,7 @@ var tests = []*struct {
 				},
 			},
 		},
-		expected: []int{1, 2, 3},
+		expected: []int{1, 3, 2},
 	},
 }
 

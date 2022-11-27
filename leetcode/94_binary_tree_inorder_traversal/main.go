@@ -14,8 +14,8 @@ func main() {
 			},
 		},
 	}
-	fmt.Println(inorderTraversalDFS(root))
-	// fmt.Println(inorderTraversalIterator(root))
+	// fmt.Println(inorderTraversalDFS(root))
+	fmt.Println(inorderTraversalIterator(root))
 }
 
 // 左 -> 中 -> 右
@@ -32,8 +32,30 @@ func inorderTraversalDFS(root *TreeNode) []int {
 }
 
 func inorderTraversalIterator(root *TreeNode) []int {
-	// TODO: implement
-	return nil
+	if root == nil {
+		return []int{}
+	}
+
+	var results []int
+	stack := []*TreeNode{root}
+	for len(stack) > 0 {
+		cur := stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+		if cur.Left == nil && cur.Right == nil {
+			results = append(results, cur.Val)
+			continue
+		}
+
+		if cur.Right != nil {
+			stack = append(stack, cur.Right)
+		}
+		stack = append(stack, cur)
+		if cur.Left != nil {
+			stack = append(stack, cur.Left)
+		}
+		cur.Left, cur.Right = nil, nil
+	}
+	return results
 }
 
 type TreeNode struct {
