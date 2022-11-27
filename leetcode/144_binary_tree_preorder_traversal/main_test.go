@@ -31,5 +31,7 @@ func TestPreorderTraversalDFS(t *testing.T) {
 }
 
 func TestPreorderTraversalIterator(t *testing.T) {
-	// TODO: implement
+	for _, test := range tests {
+		assert.Equal(t, test.expected, preorderTraverseIterator(test.root))
+	}
 }
