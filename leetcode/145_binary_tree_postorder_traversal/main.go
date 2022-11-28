@@ -18,6 +18,7 @@ func main() {
 	fmt.Println(postorderTraversalIterator(root))
 }
 
+// 左 -> 右 -> 中
 func postorderTraversalDFS(root *TreeNode) []int {
 	if root == nil {
 		return []int{}
