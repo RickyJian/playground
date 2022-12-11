@@ -33,3 +33,9 @@ func TestMagnificentSets(t *testing.T) {
 		assert.Equal(t, test.expected, magnificentSets(test.n, test.edges))
 	}
 }
+
+func TestMagnificentSetsBipartite(t *testing.T) {
+	for _, test := range tests {
+		assert.Equal(t, test.expected, magnificentSetsBipartite(test.n, test.edges))
+	}
+}
