@@ -11,7 +11,6 @@ func main() {
 	fmt.Println(magnificentSetsAns(6, [][]int{{1, 2}, {1, 4}, {1, 5}, {2, 6}, {2, 3}, {4, 6}}))
 }
 
-// TLE
 func magnificentSets(n int, edges [][]int) int {
 	// 1) 製圖：找出每個節點可以訪問的各節點
 	graph := make([][]int, n)
@@ -25,11 +24,12 @@ func magnificentSets(n int, edges [][]int) int {
 	var group [][]int
 	visited := make(map[int]struct{})
 	for i := 0; i < n; i++ {
-		var nodes []int
 		if _, ok := visited[i]; !ok {
+			nodes := []int{i}
+			visited[i] = struct{}{}
 			dfs(graph, i, &nodes, visited)
+			group = append(group, nodes)
 		}
-		group = append(group, nodes)
 	}
 
 	// 3) BFS：檢查圖是否合法，並找最大階層
@@ -50,9 +50,9 @@ func magnificentSets(n int, edges [][]int) int {
 
 // 將圖分組
 func dfs(graph [][]int, n int, nodes *[]int, visited map[int]struct{}) {
-	*nodes = append(*nodes, n)
 	for _, node := range graph[n] {
 		if _, ok := visited[node]; ok {
+			// 走訪過節點不須再走訪
 			continue
 		}
 
@@ -75,7 +75,8 @@ func bfs(graph [][]int, node int) int {
 			for _, nextNode := range graph[n] {
 				if level, ok := visited[nextNode]; ok && math.Abs(float64(result-level)) != 1 {
 					return -1
-				} else if _, ok := visited[nextNode]; ok {
+				} else if ok {
+					// 走訪過節點不須再走訪
 					continue
 				}
 
