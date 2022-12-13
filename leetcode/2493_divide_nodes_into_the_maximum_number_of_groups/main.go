@@ -7,8 +7,8 @@ import (
 
 func main() {
 	fmt.Println(magnificentSets(6, [][]int{{1, 2}, {1, 4}, {1, 5}, {2, 6}, {2, 3}, {4, 6}}))
-	fmt.Println(magnificentSetsBipartite(6, [][]int{{1, 2}, {1, 4}, {1, 5}, {2, 6}, {2, 3}, {4, 6}}))
-	fmt.Println(magnificentSetsAns(6, [][]int{{1, 2}, {1, 4}, {1, 5}, {2, 6}, {2, 3}, {4, 6}}))
+	// fmt.Println(magnificentSetsBipartite(6, [][]int{{1, 2}, {1, 4}, {1, 5}, {2, 6}, {2, 3}, {4, 6}}))
+	// fmt.Println(magnificentSetsAns(6, [][]int{{1, 2}, {1, 4}, {1, 5}, {2, 6}, {2, 3}, {4, 6}}))
 }
 
 func magnificentSets(n int, edges [][]int) int {
@@ -24,12 +24,12 @@ func magnificentSets(n int, edges [][]int) int {
 	var group [][]int
 	visited := make(map[int]struct{})
 	for i := 0; i < n; i++ {
-		if _, ok := visited[i]; !ok {
-			nodes := []int{i}
-			visited[i] = struct{}{}
-			dfs(graph, i, &nodes, visited)
-			group = append(group, nodes)
+		if _, ok := visited[i]; ok {
+			continue
 		}
+
+		visited[i] = struct{}{}
+		group = append(group, dfs(graph, i, visited))
 	}
 
 	// 3) BFS：檢查圖是否合法，並找最大階層
@@ -49,7 +49,8 @@ func magnificentSets(n int, edges [][]int) int {
 }
 
 // 將圖分組
-func dfs(graph [][]int, n int, nodes *[]int, visited map[int]struct{}) {
+func dfs(graph [][]int, n int, visited map[int]struct{}) []int {
+	results := []int{n}
 	for _, node := range graph[n] {
 		if _, ok := visited[node]; ok {
 			// 走訪過節點不須再走訪
@@ -57,10 +58,9 @@ func dfs(graph [][]int, n int, nodes *[]int, visited map[int]struct{}) {
 		}
 
 		visited[node] = struct{}{}
-		*nodes = append(*nodes, node)
-		dfs(graph, node, nodes, visited)
+		results = append(results, dfs(graph, node, visited)...)
 	}
-	return
+	return results
 }
 
 // 檢查圖是否合法，並找最大階層
