@@ -13,18 +13,21 @@ func main() {
 
 func magnificentSets(n int, edges [][]int) int {
 	// 1) 製圖：找出每個節點可以訪問的各節點
+	//			2維陣列第一個陣列是每個節點，第二個陣列是每個節點可走訪的節點
 	graph := make([][]int, n)
 	for _, edge := range edges {
+		// 由於題目節點是由 1 開始，但用 0 開始會易於後續處理，因此在這皆 -1
 		n1, n2 := edge[0]-1, edge[1]-1
 		graph[n1] = append(graph[n1], n2)
 		graph[n2] = append(graph[n2], n1)
 	}
 
-	// 2) DFS：由於節點有可能不連通，因此須將圖分組
+	// 2) DFS：由於節點有可能不連通因此須將圖分組，待後續找出最大分組時使用
 	var group [][]int
 	visited := make(map[int]struct{})
 	for i := 0; i < n; i++ {
 		if _, ok := visited[i]; ok {
+			// 走訪過的節點不再走訪
 			continue
 		}
 
@@ -41,6 +44,7 @@ func magnificentSets(n int, edges [][]int) int {
 			if count == -1 {
 				return -1
 			}
+			// 由於 bfs 出來的階層皆不同，須將群組中的節點皆走訪一次，找出最大的階層
 			depth = int(math.Max(float64(depth), float64(count)))
 		}
 		result += depth
@@ -74,6 +78,7 @@ func bfs(graph [][]int, node int) int {
 			visited[n] = result
 			for _, nextNode := range graph[n] {
 				if level, ok := visited[nextNode]; ok && math.Abs(float64(result-level)) != 1 {
+					// 不符合題目要求，所有相依的節點都必須相鄰
 					return -1
 				} else if ok {
 					// 走訪過節點不須再走訪
