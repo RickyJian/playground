@@ -70,12 +70,11 @@ func dfs(graph [][]int, n int, visited map[int]struct{}) []int {
 // 檢查圖是否合法，並找最大階層
 func bfs(graph [][]int, node int) int {
 	var result int
-	visited := make(map[int]int)
+	visited := map[int]int{node: 0}
 	queue := []int{node}
 	for len(queue) > 0 {
 		for _, n := range queue {
 			queue = queue[1:]
-			visited[n] = result
 			for _, nextNode := range graph[n] {
 				if level, ok := visited[nextNode]; ok && math.Abs(float64(result-level)) != 1 {
 					// 不符合題目要求，所有相依的節點都必須相鄰
@@ -147,13 +146,13 @@ func bfsBipartite(graph [][]int, node int) int {
 	for len(queue) > 0 {
 		for _, n := range queue {
 			queue = queue[1:]
+			visited[n] = struct{}{}
 			for _, y := range graph[n] {
 				if _, ok := visited[y]; !ok { // 没有在同一次 BFS 中访问过
 					queue = append(queue, y)
 				}
 				visited[y] = struct{}{}
 			}
-			visited[n] = struct{}{}
 		}
 		result++
 	}
