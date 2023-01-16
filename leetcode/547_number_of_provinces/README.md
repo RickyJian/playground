@@ -1,13 +1,12 @@
 # 547. Number of Provinces
 
-There are n cities. Some of them are connected, while some are not. If city a is connected directly with city b, and
-city b is connected directly with city c, then city a is connected indirectly with city c.
+有 n 個城市某些是相連某些沒有，若 a 城市相連 b 城市且 b 城市相連 c 城市，代表 a 間接連在 c 城市。
 
-A province is a group of directly or indirectly connected cities and no other cities outside of the group.
+給定一個 n x n 的矩陣 isConnected：
 
-You are given an n x n matrix isConnected where isConnected[i][j] = 1 if the ith city and the jth city are directly
-connected, and isConnected[i][j] = 0 otherwise.
+1. isConnected[i][j] = 1：代表第 i 城市與第 j 城市相接
+2. isConnected[i][j] = 0：代表第 i 城市與第 j 城市不相接
 
-Return the total number of provinces.
+省份代表相連或間接相連的城市，請找出總共有幾個省份
 
 [547_Number_of_Provinces](https://leetcode.com/problems/number-of-provinces/description/?q=union&orderBy=most_relevant&languageTags=golang)
