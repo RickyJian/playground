@@ -33,3 +33,9 @@ func TestPossibleBipartitionDFS(t *testing.T) {
 		assert.Equal(t, test.expected, possibleBipartitionDFS(test.n, test.dislikes))
 	}
 }
+
+func TestPossibleBipartitionUF(t *testing.T) {
+	for _, test := range tests {
+		assert.Equal(t, test.expected, possibleBipartitionUF(test.n, test.dislikes))
+	}
+}

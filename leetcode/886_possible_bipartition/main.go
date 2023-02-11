@@ -41,5 +41,45 @@ func dfs(graph [][]int, node int, color int, colors []int) bool {
 
 // Union Find solution
 func possibleBipartitionUF(n int, dislikes [][]int) bool {
-	return false
+	graph := make([][]int, n)
+	for _, dislike := range dislikes {
+		p1, p2 := dislike[0]-1, dislike[1]-1
+		graph[p1] = append(graph[p1], p2)
+		graph[p2] = append(graph[p2], p1)
+	}
+
+	u := newUF(n)
+	for i := 0; i < n; i++ {
+		for _, j := range graph[i] {
+			if u.find(i) == u.find(j) {
+				return false
+			}
+			u.union(graph[i][0], j)
+		}
+	}
+	return true
+}
+
+type uf []int
+
+func newUF(n int) *uf {
+	u := make(uf, n)
+	for i := 0; i < n; i++ {
+		u[i] = i
+	}
+	return &u
+}
+
+func (u uf) union(i, j int) {
+	findI, findJ := u.find(i), u.find(j)
+	if findI != findJ {
+		u[findJ] = findI
+	}
+}
+
+func (u uf) find(idx int) int {
+	for u[idx] != idx {
+		idx = u[idx]
+	}
+	return idx
 }
