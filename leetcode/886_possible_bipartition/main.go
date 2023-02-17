@@ -7,6 +7,7 @@ func main() {
 // DFS solution
 // refer to: https://en.wikipedia.org/wiki/Bipartite_graph
 func possibleBipartitionDFS(n int, dislikes [][]int) bool {
+	// 1) 製圖
 	graph := make([][]int, n)
 	for _, nodes := range dislikes {
 		n1, n2 := nodes[0]-1, nodes[1]-1
@@ -14,6 +15,7 @@ func possibleBipartitionDFS(n int, dislikes [][]int) bool {
 		graph[n2] = append(graph[n2], n1)
 	}
 
+	// 2) 染色
 	colors := make([]int, n)
 	for i := 0; i < n; i++ {
 		if colors[i] == 0 {
@@ -51,9 +53,11 @@ func possibleBipartitionUF(n int, dislikes [][]int) bool {
 	u := newUF(n)
 	for i := 0; i < n; i++ {
 		for _, j := range graph[i] {
+			// 若 i, j 查找到相同的 root 代表無法將齊分為兩群
 			if u.find(i) == u.find(j) {
 				return false
 			}
+			// 以第一個人作為代表合併其餘人
 			u.union(graph[i][0], j)
 		}
 	}
