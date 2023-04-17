@@ -17,7 +17,6 @@ func main() {
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Fatalf("client error: %v", err)
-
 	}
 	defer resp.Body.Close()
 
