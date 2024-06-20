@@ -19,3 +19,23 @@ func productExceptSelfBrute(nums []int) []int {
 	}
 	return results
 }
+
+func productExceptSelfPrefixSum(nums []int) []int {
+	prefix := make([]int, len(nums))
+	prefix[0] = 1
+	for i := 1; i < len(nums); i++ {
+		prefix[i] = prefix[i-1] * nums[i-1]
+	}
+	postfix := make([]int, len(nums))
+	postfix[len(nums)-1] = 1
+	for i := len(nums) - 2; i >= 0; i-- {
+		postfix[i] = postfix[i+1] * nums[i+1]
+	}
+	results := make([]int, len(nums))
+	for i := 0; i < len(nums); i++ {
+		results[i] = prefix[i] * postfix[i]
+	}
+	return results
+}
+
+// TODO: enhance prefix sum
