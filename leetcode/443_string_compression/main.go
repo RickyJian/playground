@@ -44,3 +44,5 @@ func compressV1(chars []byte) int {
 	copy(chars, nc)
 	return count
 }
+
+// TODO: enhance two pointer
