@@ -20,3 +20,16 @@ func moveZeroesV1(nums []int) {
 		}
 	}
 }
+
+func moveZeroesV2(nums []int) {
+	var nonZeroIdx int
+	for i := 0; i < len(nums); i++ {
+		if nums[i] != 0 {
+			nums[nonZeroIdx] = nums[i]
+			nonZeroIdx++
+		}
+	}
+	for i := nonZeroIdx; i < len(nums); i++ {
+		nums[i] = 0
+	}
+}
