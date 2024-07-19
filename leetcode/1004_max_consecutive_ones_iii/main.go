@@ -4,6 +4,7 @@ func main() {
 	// TODO: implement here
 }
 
+// slide window
 func longestOnesV1(nums []int, k int) int {
 	if k >= len(nums) {
 		return len(nums)
@@ -37,6 +38,28 @@ func longestOnesV1(nums []int, k int) int {
 			if size := i - start + 1; results < size {
 				results = size
 			}
+		}
+	}
+	return results
+}
+
+// enhance v1
+func longestOnesV2(nums []int, k int) int {
+	var start, results int
+	for i, num := range nums {
+		if num == 0 {
+			// flip zero so decrease k
+			k--
+		}
+		for k < 0 {
+			// move start after first flip position
+			if nums[start] == 0 {
+				k++
+			}
+			start++
+		}
+		if size := i - start + 1; results < size {
+			results = size
 		}
 	}
 	return results
