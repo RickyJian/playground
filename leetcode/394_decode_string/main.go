@@ -48,3 +48,39 @@ func decodeStringV1(s string) string {
 	}
 	return strings.Join(stack, "")
 }
+
+// refer to: https://leetcode.com/problems/decode-string/solutions/4035120/go-solution-easy-explanation-o-n-time-space-complexity/?source=submission-ac
+func decodeStringV2(s string) string {
+	var stack []string
+	for _, char := range s {
+		word := string(char)
+		if word != "]" {
+			stack = append(stack, word)
+			continue
+		}
+
+		// group words
+		var words string
+		for stack[len(stack)-1] != "[" {
+			words = stack[len(stack)-1] + words
+			stack = stack[:len(stack)-1]
+		}
+		// pop left `[`
+		stack = stack[:len(stack)-1]
+
+		// find number
+		var number string
+		for len(stack) > 0 {
+			top := stack[len(stack)-1]
+			if top != "0" && top != "1" && top != "2" && top != "3" && top != "4" &&
+				top != "5" && top != "6" && top != "7" && top != "8" && top != "9" {
+				break
+			}
+			number = top + number
+			stack = stack[:len(stack)-1]
+		}
+		count, _ := strconv.Atoi(number)
+		stack = append(stack, strings.Repeat(words, count))
+	}
+	return strings.Join(stack, "")
+}
