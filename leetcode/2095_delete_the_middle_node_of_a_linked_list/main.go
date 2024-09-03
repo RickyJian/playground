@@ -52,6 +52,18 @@ func deleteMiddleV2(head *ListNode) *ListNode {
 	return result
 }
 
+// refer to: https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/solutions/4705282/simple-beginner-friendly-dry-run-two-pointer-approach-time-o-n-space-o-1-gits/
+func deleteMiddleV3(head *ListNode) *ListNode {
+	dummy := &ListNode{Next: head}
+	slow, fast := dummy, head
+	for fast != nil && fast.Next != nil {
+		slow = slow.Next
+		fast = fast.Next.Next
+	}
+	slow.Next = slow.Next.Next
+	return dummy.Next
+}
+
 type ListNode struct {
 	Val  int
 	Next *ListNode
