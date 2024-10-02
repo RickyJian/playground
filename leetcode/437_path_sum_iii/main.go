@@ -19,8 +19,6 @@ func dfsV1(node *TreeNode, target int, prevNodes []int) int {
 	}
 	for i := range prevNodes {
 		prevNodes[i] += node.Val
-		if node.Val == 1 {
-		}
 		if prevNodes[i] == target {
 			count++
 		}
@@ -59,6 +57,33 @@ func dfsV2(node *TreeNode, target int, prevNodes []int) int {
 	}
 	count += dfsV2(node.Left, target, nextNodes)
 	count += dfsV2(node.Right, target, nextNodes)
+	return count
+}
+
+// prefix sum solution
+// refer to: https://leetcode.com/problems/path-sum-iii/solutions/141424/python-step-by-step-walk-through-easy-to-understand-two-solutions-comparison/?envType=study-plan-v2&envId=leetcode-75
+func pathSumV3(root *TreeNode, targetSum int) int {
+	return dfsV3(root, targetSum, 0, make(map[int]int))
+}
+
+func dfsV3(node *TreeNode, target, sum int, cache map[int]int) int {
+	if node == nil {
+		return 0
+	}
+
+	var count int
+	sum += node.Val
+	if target == sum {
+		count++
+	}
+	// 倘若 `sum-target` 出現在 cache 中， 代表父節點到當下節點的總和 = target。
+	count += cache[sum-target]
+	// 使用 cache 儲存 sum 出現的次數，用來查找先前路徑的總和。
+	cache[sum]++
+	count += dfsV3(node.Left, target, sum, cache)
+	count += dfsV3(node.Right, target, sum, cache)
+	// 由於無後續節點需要走訪，因此將先前加總過得次數移除。
+	cache[sum]--
 	return count
 }
 
