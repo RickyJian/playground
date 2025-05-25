@@ -62,3 +62,30 @@ func validPathLoopDFS(n int, edges [][]int, source int, destination int) bool {
 	}
 	return false
 }
+
+func validPathBFS(n int, edges [][]int, source int, destination int) bool {
+	grapth := make(map[int][]int, n)
+	for _, edge := range edges {
+		grapth[edge[0]] = append(grapth[edge[0]], edge[1])
+		grapth[edge[1]] = append(grapth[edge[1]], edge[0])
+	}
+
+	queue := []int{source}
+	visited := make([]bool, n)
+	visited[source] = true
+	for len(queue) > 0 {
+		current := queue[0]
+		queue = queue[1:]
+		if current == destination {
+			return true
+		}
+		for _, next := range grapth[current] {
+			if visited[next] {
+				continue
+			}
+			visited[next] = true
+			queue = append(queue, next)
+		}
+	}
+	return false
+}
