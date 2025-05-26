@@ -89,3 +89,46 @@ func validPathBFS(n int, edges [][]int, source int, destination int) bool {
 	}
 	return false
 }
+
+// best solution
+func validPathUnionFind(n int, edges [][]int, source int, destination int) bool {
+	uf := &unionFind{
+		parent: make([]int, n),
+		rank:   make([]int, n),
+	}
+	// init node
+	for i := range uf.parent {
+		uf.parent[i] = i
+		uf.rank[i] = 1 // 初始化 rank
+	}
+	for _, nodes := range edges {
+		uf.union(nodes[0], nodes[1])
+	}
+	return uf.find(source) == uf.find(destination)
+}
+
+type unionFind struct {
+	parent []int
+	rank   []int
+}
+
+func (u *unionFind) union(from, to int) {
+	findF, findT := u.find(from), u.find(to)
+	if findF != findT {
+		if u.rank[findF] < u.rank[findT] {
+			u.parent[findF] = findT
+		} else if u.rank[findF] > u.rank[findT] {
+			u.parent[findT] = findF
+		} else {
+			u.parent[findT] = findF
+			u.rank[findF]++
+		}
+	}
+}
+
+func (u *unionFind) find(target int) int {
+	if u.parent[target] != target {
+		u.parent[target] = u.find(u.parent[target])
+	}
+	return u.parent[target]
+}
