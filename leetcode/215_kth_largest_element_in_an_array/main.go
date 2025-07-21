@@ -43,3 +43,55 @@ func (q *priorityQueue) push(num int) {
 func (q *priorityQueue) findKth(k int) int {
 	return (*q)[k-1]
 }
+
+// Time Limit Exceeded
+func findKthLargestV2(nums []int, k int) int {
+	pq := initQueueV2()
+	for _, num := range nums {
+		pq.push(num)
+	}
+	return pq.findKth(k)
+}
+
+type priorityQueueV2 struct {
+	queue []int
+}
+
+func initQueueV2() *priorityQueueV2 {
+	return &priorityQueueV2{}
+}
+
+func (q *priorityQueueV2) push(num int) {
+	left, right := 0, len(q.queue)
+	var position int
+	for left < right {
+		mid := (left + right) / 2
+		if q.queue[mid] == num {
+			for mid < right && q.queue[mid] == num {
+				mid++
+			}
+			position = mid
+			break
+		} else if q.queue[mid] < num {
+			// 向右插入
+			left = mid + 1
+		} else {
+			// 向左插入
+			right = mid
+		}
+	}
+	// 如果沒有找到相同元素，left 就是插入位置
+	if left == right {
+		position = left
+	}
+
+	newQueue := make([]int, len(q.queue)+1)
+	copy(newQueue, q.queue[:position])
+	newQueue[position] = num
+	copy(newQueue[position+1:], q.queue[position:])
+	q.queue = newQueue
+}
+
+func (q *priorityQueueV2) findKth(k int) int {
+	return q.queue[len(q.queue)-k]
+}
