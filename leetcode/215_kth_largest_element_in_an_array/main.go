@@ -95,3 +95,32 @@ func (q *priorityQueueV2) push(num int) {
 func (q *priorityQueueV2) findKth(k int) int {
 	return q.queue[len(q.queue)-k]
 }
+
+// Time Limit Exceeded
+func findKthLargestV3(nums []int, k int) int {
+	pq := initQueueV3(k)
+	for _, num := range nums {
+		pq.push(num)
+	}
+	return pq[k-1]
+}
+
+type priorityQueueV3 []int
+
+func initQueueV3(size int) priorityQueueV3 {
+	return make(priorityQueueV3, 0, size)
+}
+
+func (p *priorityQueueV3) push(num int) {
+	if size := len((*p)); size < cap((*p)) {
+		(*p) = append((*p), num)
+	} else if (*p)[size-1] < num {
+		(*p) = (*p)[:size-1]
+		(*p) = append((*p), num)
+	} else {
+		return
+	}
+	for i := len((*p)) - 1; i > 0 && (*p)[i] > (*p)[i-1]; i-- {
+		(*p)[i], (*p)[i-1] = (*p)[i-1], (*p)[i]
+	}
+}

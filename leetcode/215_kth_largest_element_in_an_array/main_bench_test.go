@@ -195,3 +195,91 @@ func BenchmarkFindKthLargestV2_Duplicates(b *testing.B) {
 		findKthLargestV2(nums, k)
 	}
 }
+
+// Benchmark findKthLargestV3 (新版本)
+func BenchmarkFindKthLargestV3_Small(b *testing.B) {
+	nums := generateTestData(100)
+	k := 10
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		findKthLargestV3(nums, k)
+	}
+}
+
+func BenchmarkFindKthLargestV3_Medium(b *testing.B) {
+	nums := generateTestData(1000)
+	k := 100
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		findKthLargestV3(nums, k)
+	}
+}
+
+func BenchmarkFindKthLargestV3_Large(b *testing.B) {
+	nums := generateTestData(5000)
+	k := 500
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		findKthLargestV3(nums, k)
+	}
+}
+
+func BenchmarkFindKthLargestV3_K1(b *testing.B) {
+	nums := generateTestData(1000)
+	k := 1
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		findKthLargestV3(nums, k)
+	}
+}
+
+func BenchmarkFindKthLargestV3_KHalf(b *testing.B) {
+	nums := generateTestData(1000)
+	k := 500
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		findKthLargestV3(nums, k)
+	}
+}
+
+func BenchmarkFindKthLargestV3_Memory(b *testing.B) {
+	nums := generateTestData(1000)
+	k := 100
+
+	b.ResetTimer()
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		findKthLargestV3(nums, k)
+	}
+}
+
+func BenchmarkFindKthLargestV3_WorstCase(b *testing.B) {
+	nums := make([]int, 1000)
+	for i := 0; i < 1000; i++ {
+		nums[i] = i // 升序排列
+	}
+	k := 500
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		findKthLargestV3(nums, k)
+	}
+}
+
+func BenchmarkFindKthLargestV3_Duplicates(b *testing.B) {
+	nums := make([]int, 1000)
+	for i := 0; i < 1000; i++ {
+		nums[i] = i % 10 // 只有 0-9 的重複值
+	}
+	k := 100
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		findKthLargestV3(nums, k)
+	}
+}
