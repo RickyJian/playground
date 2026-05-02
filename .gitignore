@@ -1,2 +1,4 @@
 .idea
-.cursor/
+.cursor/*
+!.cursor/skills/
+.DS_Store
