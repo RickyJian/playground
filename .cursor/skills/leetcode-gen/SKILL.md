@@ -31,9 +31,18 @@ disable-model-invocation: true
 | 項目 | 規則 | 範例 |
 |------|------|------|
 | 資料夾名稱 | `{number}_{slug_underscore}` | `1_two_sum` |
-| go.mod module | `{slug_underscore}`（不含題號） | `two_sum` |
+| go.mod module | 將 URL slug 的 `-` 換成 `_`，**不加題號前綴** | `two_sum` |
 | 解法函式名 | LeetCode 官方 camelCase | `twoSum` |
 | 多版本後綴 | 追加 V2、V3 | `twoSumV2` |
+
+**go.mod module name 命名規則（snake_case，不含題號）：**
+
+| 資料夾 | module name |
+|--------|-------------|
+| `2099_find_subsequence_of_length_k_with_the_largest_sum` | `find_subsequence_of_length_k_with_the_largest_sum` |
+| `2390_removing_stars_from_a_string` | `removing_stars_from_a_string` |
+| `219_contains_duplicate_ii` | `contains_duplicate_ii` |
+| `1_two_sum` | `two_sum` |
 
 ### 步驟 4：建立目錄與檔案
 
@@ -127,7 +136,9 @@ func Test{FunctionName}(t *testing.T) {
 
 ---
 
-#### `go.mod`（透過指令產生）
+#### `go.mod` 與 `go.sum`（透過指令產生）
+
+module name = URL slug 去掉題號、`-` 換成 `_`（全小寫 snake_case）。
 
 在題目資料夾內執行：
 
@@ -135,9 +146,20 @@ func Test{FunctionName}(t *testing.T) {
 cd $LEETCODE_HOME/{folder}
 go mod init {slug_underscore}
 go get github.com/stretchr/testify@latest
+go mod tidy
 ```
 
-執行後會自動產生 `go.mod` 與 `go.sum`。
+執行後會自動產生 `go.mod` 與 `go.sum`。`go.sum` 不需手動建立。
+
+**範例（2099 題）：**
+```
+module find_subsequence_of_length_k_with_the_largest_sum
+
+go 1.x.x
+
+require github.com/stretchr/testify vX.X.X
+...
+```
 
 ---
 
@@ -205,14 +227,19 @@ func TestTwoSum(t *testing.T) {
 [1. Two Sum](https://leetcode.com/problems/two-sum/)
 ```
 
-**go.mod**（執行指令後產生）：
+**go.mod**（執行 `go mod init two_sum && go get github.com/stretchr/testify@latest && go mod tidy` 後產生）：
 ```
 module two_sum
 
-go 1.24.x
+go 1.x.x
 
-require github.com/stretchr/testify v1.x.x
-...
+require github.com/stretchr/testify vX.X.X
+
+require (
+	github.com/davecgh/go-spew vX.X.X // indirect
+	github.com/pmezard/go-difflib vX.X.X // indirect
+	gopkg.in/yaml.v3 vX.X.X // indirect
+)
 ```
 
 ---
