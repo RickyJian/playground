@@ -87,3 +87,50 @@ func TestMaxSubsequence(t *testing.T) {
 		})
 	}
 }
+
+func TestMaxSubsequenceMinHeap(t *testing.T) {
+	tests := []struct {
+		name string
+		nums []int
+		k    int
+	}{
+		{
+			name: "範例 1",
+			nums: []int{2, 1, 3, 3},
+			k:    2,
+		},
+		{
+			name: "範例 2",
+			nums: []int{-1, -2, 3, 4},
+			k:    3,
+		},
+		{
+			name: "範例 3",
+			nums: []int{3, 4, 3, 3},
+			k:    2,
+		},
+		{
+			name: "k 等於陣列長度",
+			nums: []int{1, 2, 3},
+			k:    3,
+		},
+		{
+			name: "單一元素",
+			nums: []int{5},
+			k:    1,
+		},
+		{
+			name: "全部為負數",
+			nums: []int{-5, -3, -1, -4},
+			k:    2,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			expected := maxSubsequence(tt.nums, tt.k)
+			result := maxSubsequenceMinHeap(tt.nums, tt.k)
+			assert.Equal(t, expected, result)
+		})
+	}
+}
