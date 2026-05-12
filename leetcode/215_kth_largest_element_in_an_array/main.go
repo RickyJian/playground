@@ -1,5 +1,9 @@
 package main
 
+import (
+	"math"
+)
+
 func main() {
 	// do nothing
 }
@@ -122,5 +126,77 @@ func (p *priorityQueueV3) push(num int) {
 	}
 	for i := len((*p)) - 1; i > 0 && (*p)[i] > (*p)[i-1]; i-- {
 		(*p)[i], (*p)[i-1] = (*p)[i-1], (*p)[i]
+	}
+}
+
+func findKthLargestV4(nums []int, k int) int {
+	heap := newMaxHeap()
+	for _, num := range nums {
+		heap.push(num)
+	}
+	var last int
+	for range k {
+		last = heap.pop()
+	}
+	return last
+}
+
+type maxHeap struct {
+	nums []int
+}
+
+func newMaxHeap() *maxHeap {
+	return &maxHeap{}
+}
+
+func (h *maxHeap) pop() int {
+	top := h.nums[0]
+	h.nums[0] = h.nums[len(h.nums)-1]
+	h.nums = h.nums[:len(h.nums)-1]
+	if len(h.nums) == 0 {
+		return top
+	}
+
+	// bubble down
+	var currentIdx int
+	for {
+		var biggestIdx int
+		biggestNode := math.MinInt
+		size := len(h.nums)
+		if leftIdx := 2*currentIdx + 1; leftIdx < size {
+			if leftNode := h.nums[leftIdx]; leftNode > biggestNode {
+				biggestNode = leftNode
+				biggestIdx = leftIdx
+			}
+		}
+		if rightIdx := 2*currentIdx + 2; rightIdx < size {
+			if rightNode := h.nums[rightIdx]; rightNode > biggestNode {
+				biggestNode = rightNode
+				biggestIdx = rightIdx
+			}
+		}
+		if currentNode := h.nums[currentIdx]; currentNode < biggestNode {
+			h.nums[currentIdx], h.nums[biggestIdx] = h.nums[biggestIdx], h.nums[currentIdx]
+			currentIdx = biggestIdx
+		} else {
+			break
+		}
+	}
+	return top
+}
+
+func (h *maxHeap) push(num int) {
+	h.nums = append(h.nums, num)
+	currentIdx := len(h.nums) - 1
+	for {
+		currentNode := h.nums[currentIdx]
+		parentIdx := (currentIdx - 1) / 2
+		parentNode := h.nums[parentIdx]
+		if currentNode > parentNode {
+			h.nums[currentIdx], h.nums[parentIdx] = h.nums[parentIdx], h.nums[currentIdx]
+			currentIdx = parentIdx
+		} else {
+			break
+		}
 	}
 }
