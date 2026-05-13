@@ -200,3 +200,70 @@ func (h *maxHeap) push(num int) {
 		}
 	}
 }
+
+func findKthLargestV5(nums []int, k int) int {
+	heap := newMinHeap(k)
+	for _, num := range nums {
+		heap.push(num)
+	}
+	return heap.nums[0]
+}
+
+type minHeap struct {
+	nums  []int
+	limit int
+}
+
+func newMinHeap(limit int) *minHeap {
+	return &minHeap{limit: limit}
+}
+
+func (h *minHeap) push(num int) {
+	if h.limit == len(h.nums) {
+		if top := h.nums[0]; top >= num {
+			return
+		} else {
+			// pop then bubble down
+			h.nums[0] = num
+			var currentIdx int
+			for {
+				var smallestIdx int
+				smallestNode := math.MaxInt
+				size := len(h.nums)
+				if leftIdx := 2*currentIdx + 1; leftIdx < size {
+					if leftNode := h.nums[leftIdx]; leftNode < smallestNode {
+						smallestNode = leftNode
+						smallestIdx = leftIdx
+					}
+				}
+				if rightIdx := 2*currentIdx + 2; rightIdx < size {
+					if rightNode := h.nums[rightIdx]; rightNode < smallestNode {
+						smallestNode = rightNode
+						smallestIdx = rightIdx
+					}
+				}
+				if currentNode := h.nums[currentIdx]; currentNode > smallestNode {
+					h.nums[currentIdx], h.nums[smallestIdx] = h.nums[smallestIdx], h.nums[currentIdx]
+					currentIdx = smallestIdx
+				} else {
+					break
+				}
+			}
+		}
+	} else {
+		// push then bubble up
+		h.nums = append(h.nums, num)
+		currentIdx := len(h.nums) - 1
+		for {
+			currentNode := h.nums[currentIdx]
+			parentIdx := (currentIdx - 1) / 2
+			parentNode := h.nums[parentIdx]
+			if currentNode < parentNode {
+				h.nums[currentIdx], h.nums[parentIdx] = h.nums[parentIdx], h.nums[currentIdx]
+				currentIdx = parentIdx
+			} else {
+				break
+			}
+		}
+	}
+}
